@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from .models import Account
-from .serializers import CheckFirstLoginSerializer, UserSerializer, setFirstLoginSerializer, ChangePasswordSerializer
+from .serializers import GetUserIdSerializer, CheckFirstLoginSerializer, UserForAccessSerializer, setFirstLoginSerializer, ChangePasswordSerializer, UserSerializer
 from .permissions import IsOwner
 from django.http import HttpResponse
 from django.views import View
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.authentication import TokenAuthentication
 
 from rest_framework import viewsets, status, generics, status
@@ -32,6 +32,9 @@ class FirstLoginDetailView(generics.RetrieveUpdateDestroyAPIView):
 class UserCreate(generics.CreateAPIView):
     queryset = Account.objects.all()
     serializer_class = UserSerializer
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated, IsAdminUser)
 
 class ChangePasswordView(generics.UpdateAPIView):
     """
@@ -67,3 +70,23 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response(response)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class getUsersViewSets(viewsets.ModelViewSet):
+    queryset = Account.objects.all();
+    model = Account
+    serializer_class = UserForAccessSerializer
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated, IsAdminUser)
+
+class getUserIdViewSet(viewsets.ModelViewSet):
+    queryset = Account.objects.all();
+    model = Account
+    serializer_class = GetUserIdSerializer
+
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated, IsAdminUser)
+
+    def get_queryset(self):
+        userT = self.request.user.username
+        return Account.objects.filter(username=userT)

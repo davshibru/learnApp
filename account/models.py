@@ -7,8 +7,6 @@ class MyAccountManager(BaseUserManager):
         if not username:
             raise ValueError("Users must have an user name")
 
-        email = ''
-
         if not email:
             raise ValueError("Users must have an email")
 

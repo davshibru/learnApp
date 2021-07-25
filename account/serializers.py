@@ -5,7 +5,13 @@ class CheckFirstLoginSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Account
-        fields = ['id', 'is_it_first_login', 'is_password_had_changed']
+        fields = ['id', 'username','is_it_first_login', 'is_password_had_changed', 'is_staff']
+
+class UserForAccessSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Account
+        fields = ['id', 'username']
 
 class setFirstLoginSerializer(serializers.ModelSerializer):
 
@@ -13,10 +19,11 @@ class setFirstLoginSerializer(serializers.ModelSerializer):
         model = Account
         fields = '__all__'
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account
-        fields = ('username', 'password', 'email')
+        fields = ('username', 'password', 'email', 'is_admin', 'is_superuser', 'is_staff')
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
@@ -35,3 +42,9 @@ class ChangePasswordSerializer(serializers.Serializer):
     """
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+class GetUserIdSerializer(serializers.Serializer):
+
+    class Meta:
+        model = Account
+        fields = ['id']

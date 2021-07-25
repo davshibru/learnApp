@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import UserCreate, FirstLoginDetailView, ChangePasswordView
+from .views import UserCreate, FirstLoginDetailView, ChangePasswordView, getUsersViewSets, getUserIdViewSet
 from .router import router
 
 urlpatterns = [
@@ -9,6 +9,8 @@ urlpatterns = [
     path('api/register/', UserCreate.as_view()),
     path('accountchecker/<int:pk>', FirstLoginDetailView.as_view()),
     path('change-password/', ChangePasswordView.as_view(), name='change-password'),
+    path('get-users-for-access/', getUsersViewSets.as_view({'get': 'list'})),
+
 ]
 
 

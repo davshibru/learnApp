@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'djoser',
     'corsheaders',
     'django_rest_passwordreset',
+    'django_editorjs',
 
 ]
 
@@ -101,10 +102,20 @@ DATABASES = {
 
 
 AUTH_USER_MODEL = 'account.Account'
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+    'account.backends.CaseInsensitiveModelBackend'
+)
 
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'users.serializers.UserSerializer',
 }
+
+# REST_FRAMEWORK = {
+#
+#    'DEFAULT_PERMISSION_CLASSES': ( 'rest_framework.permissions.IsAdminUser', ),
+#
+#}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -141,6 +152,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+MEDIA_ROOT='/media/'
+MEDIA_URL='/media/'
 
 STATIC_URL = '/static/'
 
