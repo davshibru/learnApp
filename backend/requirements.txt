@@ -1,0 +1,11 @@
+Django>=3.0,<4.0
+djangorestframework==3.12.2
+djoser==2.1.0
+psycopg2==2.8.6
+django-cors-headers==3.7.0
+django-rest-registration==0.6.2
+django-rest-auth==0.9.5
+django-rest-passwordreset==1.2.0
+django-editorjs==0.2.1
+
+psycopg2-binary>=2.8
